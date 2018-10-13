@@ -1,8 +1,7 @@
 const form = document.querySelector("form");
 const api_url = "http://localhost:5000/submissions";
 
-form.addEventListener("submit", (e) =>
-{
+form.addEventListener("submit", (e) => {
     e.preventDefault();
     const fd = formData(form);
     fetch(api_url, {
@@ -14,15 +13,13 @@ form.addEventListener("submit", (e) =>
     })
         .then(response => response.json())
         .then(inserted => console.log(inserted))
-        .catch(err =>
-        {
+        .catch(err => {
             console.log(err);
         });
 
 });
 
-function formData(form)
-{
+function formData(form) {
     const fd = new FormData(form);
     const name = fd.get("name");
     const email = fd.get("email");

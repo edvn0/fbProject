@@ -4,15 +4,14 @@ const cors = require("cors")();
 const morgan = require("morgan")("combined");
 const firebase = require("firebase");
 const bodyparser = require("body-parser");
-const apikeyprivate = process.env.API_KEY;
 
 app.use(bodyparser.json());
 app.use(express.json());
 app.use(cors);
 app.use(morgan);
 
-var config = {
-    apiKey: apikeyprivate,
+const config = {
+    apiKey: "",
     authDomain: "fbproject-4c9c4.firebaseapp.com",
     databaseURL: "https://fbproject-4c9c4.firebaseio.com",
     projectId: "fbproject-4c9c4",
@@ -20,6 +19,7 @@ var config = {
     messagingSenderId: "779133795319"
 };
 firebase.initializeApp(config);
+firebase.auth();
 
 const database = firebase.database();
 const ref = database.ref();
@@ -51,7 +51,11 @@ function submission(input) {
 app.post("/submissions", (req, res) => {
     if (isValidInput(req.body)) {
         const fd = submission(req.body);
-        ref.push(fd).then(response => console.log(response));
+        ref
+            .push(fd)
+            .then(response =>
+                console.log(response))
+            .catch((err) => console.log(err));
     } else {
         res.status(422);
         res.json({
