@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="css/skeleton.css">
+    <link rel="stylesheet" type="text/css" href="css/normalize.css">
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Event Submissions</title>
+</head>
+<body>
+<header>
+    <div class="header u-full-width">
+        <h1>Edwin Carlsson's event submission form!</h1>
+        <p id="p1">
+            I will here try to make an event submission form.
+        </p>
+    </div>
+</header>
+<main>
+    <div class="container">
+        <div class="u-full-width">
+            <div class="row">
+                <form id="my-form">
+                    <div>
+                        <label for="event">Which event?</label>
+                        <select name="event" class="u-full-width cenTex" id="event">
+                            <option value="ie-day">IE-Dagen</option>
+                            <option value="pl-cruise">Polenkryssningen</option>
+                            <option value="ie-gasque">IE-Gasquen</option>
+                        </select><br>
+                    </div>
+                    <div>
+                        <label for="name">Name:</label>
+                        <input name="name" class="u-full-width cenTex" type="text" id="name" placeholder="John Doe"><br>
+                    </div>
+                    <div>
+                        <label for="age">Age:</label>
+                        <input name="age" class="u-full-width cenTex" type="number" id="age" placeholder="21"><br>
+                    </div>
+                    <div>
+                        <label for="email">Email:</label>
+                        <input name="email" class="u-full-width cenTex"
+                               type="email" id="email" placeholder="johnny.doe@johndoe.com"><br>
+                    </div>
+                    <div>
+                        <label for="bth_class">Class:</label>
+                        <input name="bth_class" type="text" class="u-full-width cenTex" id="bth_class"
+                               placeholder="IEACI17"><br>
+                    </div>
+                    <div>
+                        <label for="food">Food?</label>
+                        <input name="food" type="checkbox" class="u-full-width cenTex" id="food"><br>
+                    </div>
+                    <div>
+                        <input name="submit" id="submit" class="u-full-width button-primary" type="submit"
+                               value="Submit">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+<script src="main.js"></script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+body {
+    background-color: #bbbbbb;
+}
+
+#my-form {
+    text-align: center;
+    border: 2px solid darkslategrey;
+    padding: 2em;
+}
+
+.cenTex {
+    text-align: center;
+    font-size: 18px;
+}
+
+#food {
+}
+
+.header {
+    text-align: center;
+    color: #1EAEDB;
+}
+
+.header #p1 {
+    color: #000000;
+}
