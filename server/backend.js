@@ -40,9 +40,6 @@ function submission(input) {
 app.post("/submissions", (req, res, next) => {
     if (isValidInput(req.body)) {
         const subIn = submission(req.body);
-        console.log(submissions);
-        console.log(isValidInput(req.body));
-
         submissions
             .insert(subIn)
             .then(inserted => res.json(inserted))
