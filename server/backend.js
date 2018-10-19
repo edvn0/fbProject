@@ -4,6 +4,7 @@ const cors = require("cors")();
 const morgan = require("morgan")("combined");
 const firebase = require("firebase");
 const bodyparser = require("body-parser");
+require("dotenv").config();
 
 app.use(bodyparser.json());
 app.use(express.json());
@@ -11,7 +12,7 @@ app.use(cors);
 app.use(morgan);
 
 const config = {
-    apiKey: "",
+    apiKey: process.env.API_URL,
     authDomain: "fbproject-4c9c4.firebaseapp.com",
     databaseURL: "https://fbproject-4c9c4.firebaseio.com",
     projectId: "fbproject-4c9c4",
