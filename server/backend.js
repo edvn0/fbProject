@@ -2,28 +2,16 @@ const express = require("express");
 const app = express();
 const cors = require("cors")();
 const morgan = require("morgan")("combined");
-const firebase = require("firebase");
+const monk = require("monk");
 const bodyparser = require("body-parser");
 require("dotenv").config();
 
 app.use(bodyparser.json());
-app.use(express.json());
 app.use(cors);
 app.use(morgan);
 
-const config = {
-    apiKey: process.env.API_URL,
-    authDomain: "fbproject-4c9c4.firebaseapp.com",
-    databaseURL: "https://fbproject-4c9c4.firebaseio.com",
-    projectId: "fbproject-4c9c4",
-    storageBucket: "fbproject-4c9c4.appspot.com",
-    messagingSenderId: "779133795319"
-};
-firebase.initializeApp(config);
-firebase.auth();
-
-const database = firebase.database();
-const ref = database.ref();
+const db = monk(process.env.MONGO_DB || 'http://localhost:5000/submissions');
+const submissions = db.get("submissions");
 
 function isValidInput(input) {
     return (input.name && input.name.toString().trim() !== "" &&
@@ -49,14 +37,16 @@ function submission(input) {
     };
 }
 
-app.post("/submissions", (req, res) => {
+app.post("/submissions", (req, res, next) => {
     if (isValidInput(req.body)) {
-        const fd = submission(req.body);
-        ref
-            .push(fd)
-            .then(response =>
-                console.log(response))
-            .catch((err) => console.log(err));
+        const subIn = submission(req.body);
+        console.log(submissions);
+        console.log(isValidInput(req.body));
+
+        submissions
+            .insert(subIn)
+            .then(inserted => res.json(inserted))
+            .catch(next);
     } else {
         res.status(422);
         res.json({
@@ -65,10 +55,15 @@ app.post("/submissions", (req, res) => {
     }
 });
 
-app.get("/submissions", (req, res) => {
-    res.json({
-        message: "Here all the submissions will be; check back later."
-    });
+app.get("/submissions", (req, res, next) => {
+    submissions
+        .find()
+        .then(subs => {
+            console.log("Hello!");
+            console.log(subs);
+            res.json(subs)
+        })
+        .catch(next);
 });
 
 app.get("/", (req, res) => {
