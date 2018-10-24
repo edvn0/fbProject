@@ -4,7 +4,6 @@ const api_url = "http://localhost:5000/submissions";
 form.addEventListener("submit", (e) => {
     e.preventDefault();
     const fd = formData(form);
-    console.log(fd);
 
     fetch(api_url, {
         method: "POST",
@@ -13,9 +12,8 @@ form.addEventListener("submit", (e) => {
             "Content-Type": "application/json; charset=utf-8"
         }
     })
-        .catch(err => {
-            console.log(err);
-        });
+        .then(response => response.json())
+        .then(log => console.log(log));
 });
 
 function formData(form) {
@@ -24,7 +22,7 @@ function formData(form) {
     const email = fd.get("email");
     const age = fd.get("age");
     const bth_class = fd.get("bth_class");
-    const food = fd.get("food");
+    const food = fd.get("food") === "on";
     const event = fd.get("event");
 
     return {

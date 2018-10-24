@@ -2,15 +2,14 @@ const express = require("express");
 const app = express();
 const cors = require("cors")();
 const morgan = require("morgan")("combined");
-const monk = require("monk");
 const bodyparser = require("body-parser");
 require("dotenv").config();
+const url = process.env.MONGO_DB;
 
-app.use(bodyparser.json());
+app.use(express.json());
 app.use(cors);
-app.use(morgan);
 
-const db = monk(process.env.MONGO_DB || 'http://localhost:5000/submissions');
+const db = require('monk')(url || 'localhost/submissions');
 const submissions = db.get("submissions");
 
 function isValidInput(input) {
@@ -26,6 +25,7 @@ function submission(input) {
     const bth_class = input.bth_class.toString();
     const food = input.food.toString();
     const event = input.event.toString();
+    const created = new Date();
 
     return {
         event,
@@ -33,17 +33,21 @@ function submission(input) {
         email,
         age,
         bth_class,
-        food
+        food,
+        created
     };
 }
 
 app.post("/submissions", (req, res, next) => {
     if (isValidInput(req.body)) {
+
         const subIn = submission(req.body);
+
         submissions
             .insert(subIn)
             .then(inserted => res.json(inserted))
             .catch(next);
+
     } else {
         res.status(422);
         res.json({
@@ -55,9 +59,7 @@ app.post("/submissions", (req, res, next) => {
 app.get("/submissions", (req, res, next) => {
     submissions
         .find()
-        .then(subs => {
-            console.log("Hello!");
-            console.log(subs);
+        .then((subs) => {
             res.json(subs)
         })
         .catch(next);
@@ -69,6 +71,13 @@ app.get("/", (req, res) => {
     });
 });
 
+app.use((error, req, res, next) => {
+    res.status(500);
+    res.json({
+        message: error.message
+    })
+});
+
 app.listen(5000, () => {
-    console.log("Connected to port 5000");
+    console.log("Connected to " + url);
 });

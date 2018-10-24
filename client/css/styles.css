@@ -17,6 +17,7 @@ body {
 }
 
 .header {
+    padding-top: 10px;
     text-align: center;
     color: #1EAEDB;
 }
